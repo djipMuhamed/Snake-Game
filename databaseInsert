@@ -1,0 +1,56 @@
+package sample.Mysql_Insert;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
+
+
+public class databaseInsert {
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        try{
+            System.out.println("Enter name:");
+            String name = s.next();
+            System.out.println("Enter last name:");
+            String last_name = s.next();
+            System.out.println("Enter email:");
+            String email = s.next();
+            System.out.println("Enter country:");
+            String country = s.next();
+            System.out.println("Enter score:");
+            String score = s.next();
+
+            //This will load the MySQL driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Setup the connection with the DB
+            Connection con =                                                                // 3 days of my life
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root","");
+            PreparedStatement pst = con.prepareStatement("insert into snake_data(name,last_name,email,country,score) values(?,?,?,?,?)");
+            //Console input parameters
+            pst.setString(1, name);
+            pst.setString(2, last_name);
+            pst.setString(3, email);
+            pst.setString(4, country);
+            pst.setString(5, score);
+
+            int i = pst.executeUpdate();
+            if(i!=0){
+                System.out.println("added");
+            }
+            else{
+                System.out.println("failed to add");
+            }
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+
+
+    }
+
+}
+
+
